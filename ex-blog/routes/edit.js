@@ -10,7 +10,6 @@ router.get('/:id', (req, res, next) => {
     db.get('select * from post where id=?', id,
     (err, row) => {
         console.log(row);
-        console.log(id);
         res.render('edit', {post: row});
     });
 })
@@ -21,12 +20,12 @@ router.post('/:id', (req, res, next) => {
     const title = req.body.title;
     const content = req.body.content;
     const editedtime = new Date();
-    db.get('update post set (title, content, editedtime) = (?, ?, ?) WHERE id = ?',
-    title, content, editedtime, id,
+    db.run('update post set title=?, content=? where id=?',
+    title, content, id,
     (err, row) => {
         console.log(row);
         console.log(err);
-        res.render('edit', {post: row});
+        res.redirect('/');
     });
 })
 
