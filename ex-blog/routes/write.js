@@ -21,6 +21,7 @@ router.post('/', (req, res, next) => {
         content,
         createdtime
     );
+    console.log('wrote');
     // ホーム画面(index.ejs)にリダイレクト
     res.redirect('/');
 });

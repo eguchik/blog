@@ -4,10 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var indexRouter = require('./routes/index');
 // add this!
 // write.jsのロード
 var writeRouter = require('./routes/write');
+var deleteRouter = require('./routes/delete');
+var editRouter = require('./routes/edit');
 
 var app = express();
 
@@ -25,6 +28,9 @@ app.use('/', indexRouter);
 // add this!
 // アドレスの割当
 app.use('/write', writeRouter);
+app.use('/delete', deleteRouter);
+app.use('/edit', editRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

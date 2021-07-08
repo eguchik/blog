@@ -18,7 +18,6 @@ router.get('/', (req, res, next) => {
           }
           return row;
         });
-        console.log(newRows);
         // postsパラメータを渡した状態で、index.ejsをレンダリング
         res.render('index', { posts: newRows });
       }
