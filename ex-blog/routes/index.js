@@ -19,7 +19,9 @@ router.get('/', (req, res, next) => {
           return row;
         });
         // postsパラメータを渡した状態で、index.ejsをレンダリング
-        res.render('index', { posts: newRows });
+        res.render('index', { posts: newRows, user: req.user});
+        console.log(req.session);
+        console.log(req.user);
       }
     });
   });

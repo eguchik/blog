@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
+const passport = require('passport');
 
 
 var indexRouter = require('./routes/index');
@@ -11,6 +13,9 @@ var indexRouter = require('./routes/index');
 var writeRouter = require('./routes/write');
 var deleteRouter = require('./routes/delete');
 var editRouter = require('./routes/edit');
+var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
+var detailRouter = require('./routes/detail');
 
 var app = express();
 
@@ -23,6 +28,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded( { extended: false }));
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: false,
+}));
+
+app.use(session({ secret: 'anything' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use('/', indexRouter);
 // add this!
@@ -30,6 +46,10 @@ app.use('/', indexRouter);
 app.use('/write', writeRouter);
 app.use('/delete', deleteRouter);
 app.use('/edit', editRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/detail', detailRouter);
+
 
 
 // catch 404 and forward to error handler
