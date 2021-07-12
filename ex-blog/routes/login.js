@@ -2,28 +2,41 @@ var express = require('express');
 var router = express.Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
-const User1 = {
-  name: "ike",
-  password: "sakuramusub1"
-};
+var sqlite3 = require('sqlite3');
+var db = new sqlite3.Database('mydb.sqlite3');
 
 
 passport.use(new LocalStrategy(
   (username, password, done) => {
 
-    if(username !== User1.name){
-      // Error
-      return done(null, false);
-    } else if(password !== User1.password) {
-      // Error
-      return done(null, false);
-    } else {
-      // Success and return user information.
-      return done(null, { username: username, password: password});
-    }
+    db.all('select * from account', (err, rows) => {
+      // usernameもpasswordもユニーク前提
+      var usernames = [];
+      var passwords = [];
+
+      for (i = 0; i < rows.length; i++) {
+        usernames.push(rows[i].username);
+        // input(type="password")で渡される値はstringのようなので、
+        // データベースから取り出した値もstringにしています。
+        passwords.push(rows[i].password.toString());
+      }
+
+      if(usernames.includes(username) && passwords.includes(password)) {
+        // Success
+        return done(null, { username: username, password: password});
+  
+      } else {
+        // Error
+        return done(null, false);
+      }
+
+    })
+
+
   }
 ));
+    
+
 
 passport.serializeUser((user, done) => {
   console.log('Serialize ...');
@@ -66,7 +79,5 @@ router.post('/logout', (req, res) => {
   req.session.passport.user = undefined;
   res.redirect('/white');
 });
-
-
 
 module.exports = router;

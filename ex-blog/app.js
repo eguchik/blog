@@ -16,6 +16,9 @@ var editRouter = require('./routes/edit');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var detailRouter = require('./routes/detail');
+var searchRouter = require('./routes/search');
+var createRouter = require('./routes/create');
+
 
 var app = express();
 
@@ -49,6 +52,8 @@ app.use('/edit', editRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/detail', detailRouter);
+app.use('/search', searchRouter);
+app.use('/create', createRouter);
 
 
 

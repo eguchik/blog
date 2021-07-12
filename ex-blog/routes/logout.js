@@ -3,7 +3,7 @@ var router = express.Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-
+/*
 const User1 = {
   name: "ike",
   password: "sakuramusub1"
@@ -44,5 +44,5 @@ router.get('/', (req, res) => {
 });
 
 
-
+*/
 module.exports = router;
